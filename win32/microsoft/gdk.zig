@@ -1345,7 +1345,7 @@ pub const GameInputRawDeviceItemCollectionInfo = extern struct {
     childCount: u32,
     siblingCount: u32,
     usageCount: u32,
-    usages: ?*const CM_DEVNODE_STATUS_FLAGS,
+    usages: ?*const GameInputUsage,
     parent: ?*const GameInputRawDeviceItemCollectionInfo,
     firstSibling: ?*const GameInputRawDeviceItemCollectionInfo,
     previousSibling: ?*const GameInputRawDeviceItemCollectionInfo,
@@ -1367,9 +1367,9 @@ pub const GameInputRawDeviceReportItemInfo = extern struct {
     rawPhysicalUnitsExponent: i32,
     flags: GameInputRawDeviceReportItemFlags,
     usageCount: u32,
-    usages: ?*const CM_DEVNODE_STATUS_FLAGS,
+    usages: ?*const GameInputUsage,
     collection: ?*const GameInputRawDeviceItemCollectionInfo,
-    itemString: ?*const CM_LOG_CONF,
+    itemString: ?*const GameInputString,
 };
 
 pub const GameInputRawDeviceReportInfo = extern struct {
@@ -1377,7 +1377,7 @@ pub const GameInputRawDeviceReportInfo = extern struct {
     id: u32,
     size: u32,
     itemCount: u32,
-    items: ?*const CM_CDMASK,
+    items: ?*const GameInputRawDeviceReportItemInfo,
 };
 
 pub const GameInputControllerAxisInfo = extern struct {
@@ -1392,8 +1392,8 @@ pub const GameInputControllerAxisInfo = extern struct {
     legacyDInputIndex: u16,
     legacyHidIndex: u16,
     rawReportIndex: u32,
-    inputReport: ?*const CM_CDFLAGS,
-    inputReportItem: ?*const CM_CDMASK,
+    inputReport: ?*const GameInputRawDeviceReportInfo,
+    inputReportItem: ?*const GameInputRawDeviceReportItemInfo,
 };
 
 pub const GameInputControllerButtonInfo = extern struct {
@@ -1402,8 +1402,8 @@ pub const GameInputControllerButtonInfo = extern struct {
     legacyDInputIndex: u16,
     legacyHidIndex: u16,
     rawReportIndex: u32,
-    inputReport: ?*const CM_CDFLAGS,
-    inputReportItem: ?*const CM_CDMASK,
+    inputReport: ?*const GameInputRawDeviceReportInfo,
+    inputReportItem: ?*const GameInputRawDeviceReportItemInfo,
 };
 
 pub const GameInputControllerSwitchInfo = extern struct {
@@ -1414,8 +1414,8 @@ pub const GameInputControllerSwitchInfo = extern struct {
     legacyDInputIndex: u16,
     legacyHidIndex: u16,
     rawReportIndex: u32,
-    inputReport: ?*const CM_CDFLAGS,
-    inputReportItem: ?*const CM_CDMASK,
+    inputReport: ?*const GameInputRawDeviceReportInfo,
+    inputReportItem: ?*const GameInputRawDeviceReportItemInfo,
 };
 
 pub const GameInputKeyboardInfo = extern struct {
@@ -1426,7 +1426,7 @@ pub const GameInputKeyboardInfo = extern struct {
     maxSimultaneousKeys: u32,
     platformType: u32,
     platformSubtype: u32,
-    nativeLanguage: ?*const CM_LOG_CONF,
+    nativeLanguage: ?*const GameInputString,
 };
 
 pub const GameInputMouseInfo = extern struct {
@@ -1562,7 +1562,7 @@ pub const GameInputForceFeedbackMotorInfo = extern struct {
 };
 
 pub const GameInputHapticWaveformInfo = extern struct {
-    usage: CM_DEVNODE_STATUS_FLAGS,
+    usage: GameInputUsage,
     isDurationSupported: u8,
     isIntensitySupported: u8,
     isRepeatSupported: u8,
@@ -1585,9 +1585,9 @@ pub const GameInputDeviceInfo = extern struct {
     revisionNumber: u16,
     interfaceNumber: u8,
     collectionNumber: u8,
-    usage: CM_DEVNODE_STATUS_FLAGS,
-    hardwareVersion: CM_PROB,
-    firmwareVersion: CM_PROB,
+    usage: GameInputUsage,
+    hardwareVersion: GameInputVersion,
+    firmwareVersion: GameInputVersion,
     deviceId: APP_LOCAL_DEVICE_ID,
     deviceRootId: APP_LOCAL_DEVICE_ID,
     deviceFamily: GameInputDeviceFamily,
@@ -1606,25 +1606,25 @@ pub const GameInputDeviceInfo = extern struct {
     hapticFeedbackMotorCount: u32,
     deviceStringCount: u32,
     deviceDescriptorSize: u32,
-    inputReportInfo: ?*const CM_CDFLAGS,
-    outputReportInfo: ?*const CM_CDFLAGS,
-    featureReportInfo: ?*const CM_CDFLAGS,
-    controllerAxisInfo: ?*const CM_REMOVAL_POLICY,
-    controllerButtonInfo: ?*const CM_INSTALL_STATE,
-    controllerSwitchInfo: ?*const CM_DEVCAP,
-    keyboardInfo: ?*const SET_DISPLAY_CONFIG_FLAGS,
-    mouseInfo: ?*const QUERY_DISPLAY_CONFIG_FLAGS,
+    inputReportInfo: ?*const GameInputRawDeviceReportInfo,
+    outputReportInfo: ?*const GameInputRawDeviceReportInfo,
+    featureReportInfo: ?*const GameInputRawDeviceReportInfo,
+    controllerAxisInfo: ?*const GameInputControllerAxisInfo,
+    controllerButtonInfo: ?*const GameInputControllerButtonInfo,
+    controllerSwitchInfo: ?*const GameInputControllerSwitchInfo,
+    keyboardInfo: ?*const GameInputKeyboardInfo,
+    mouseInfo: ?*const GameInputMouseInfo,
     touchSensorInfo: ?*const GameInputTouchSensorInfo,
-    motionInfo: ?*const DEVPROPTYPE,
-    arcadeStickInfo: ?*const WINUSB_PIPE_POLICY,
-    flightStickInfo: ?*const WINUSB_POWER_POLICY,
-    gamepadInfo: ?*const CONFIGRET,
+    motionInfo: ?*const GameInputMotionInfo,
+    arcadeStickInfo: ?*const GameInputArcadeStickInfo,
+    flightStickInfo: ?*const GameInputFlightStickInfo,
+    gamepadInfo: ?*const GameInputGamepadInfo,
     racingWheelInfo: ?*const GameInputRacingWheelInfo,
-    uiNavigationInfo: ?*const D2D_COLOR_F,
-    forceFeedbackMotorInfo: ?*const D2D1_COLOR_F,
+    uiNavigationInfo: ?*const GameInputUiNavigationInfo,
+    forceFeedbackMotorInfo: ?*const GameInputForceFeedbackMotorInfo,
     hapticFeedbackMotorInfo: ?*const GameInputHapticFeedbackMotorInfo,
-    displayName: ?*const CM_LOG_CONF,
-    deviceStrings: ?*const CM_LOG_CONF,
+    displayName: ?*const GameInputString,
+    deviceStrings: ?*const GameInputString,
     deviceDescriptorData: ?*const anyopaque,
 };
 
@@ -1681,17 +1681,17 @@ pub const GameInputForceFeedbackRampParams = extern struct {
 pub const GameInputForceFeedbackParams = extern struct {
     kind: GameInputForceFeedbackEffectKind,
     data: extern union {
-        constant: DWRITE_COLOR_F,
+        constant: GameInputForceFeedbackConstantParams,
         ramp: GameInputForceFeedbackRampParams,
-        sineWave: DXGI_RGBA,
-        squareWave: DXGI_RGBA,
-        triangleWave: DXGI_RGBA,
-        sawtoothUpWave: DXGI_RGBA,
-        sawtoothDownWave: DXGI_RGBA,
-        spring: DWRITE_FONT_AXIS_TAG,
-        friction: DWRITE_FONT_AXIS_TAG,
-        damper: DWRITE_FONT_AXIS_TAG,
-        inertia: DWRITE_FONT_AXIS_TAG,
+        sineWave: GameInputForceFeedbackPeriodicParams,
+        squareWave: GameInputForceFeedbackPeriodicParams,
+        triangleWave: GameInputForceFeedbackPeriodicParams,
+        sawtoothUpWave: GameInputForceFeedbackPeriodicParams,
+        sawtoothDownWave: GameInputForceFeedbackPeriodicParams,
+        spring: GameInputForceFeedbackConditionParams,
+        friction: GameInputForceFeedbackConditionParams,
+        damper: GameInputForceFeedbackConditionParams,
+        inertia: GameInputForceFeedbackConditionParams,
     },
 };
 
@@ -1790,7 +1790,7 @@ pub const IGameInput = extern struct {
                 inputKind: GameInputKind,
                 analogThreshold: f32,
                 context: ?*anyopaque,
-                callbackFunc: OEM_SOURCE_MEDIA_TYPE,
+                callbackFunc: ?GameInputReadingCallback,
                 callbackToken: ?*u64,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             else => *const fn(
@@ -1799,7 +1799,7 @@ pub const IGameInput = extern struct {
                 inputKind: GameInputKind,
                 analogThreshold: f32,
                 context: ?*anyopaque,
-                callbackFunc: OEM_SOURCE_MEDIA_TYPE,
+                callbackFunc: ?GameInputReadingCallback,
                 callbackToken: ?*u64,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
@@ -1811,7 +1811,7 @@ pub const IGameInput = extern struct {
                 statusFilter: GameInputDeviceStatus,
                 enumerationKind: GameInputEnumerationKind,
                 context: ?*anyopaque,
-                callbackFunc: SETUP_DI_BUILD_DRIVER_DRIVER_TYPE,
+                callbackFunc: ?GameInputDeviceCallback,
                 callbackToken: ?*u64,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             else => *const fn(
@@ -1821,7 +1821,7 @@ pub const IGameInput = extern struct {
                 statusFilter: GameInputDeviceStatus,
                 enumerationKind: GameInputEnumerationKind,
                 context: ?*anyopaque,
-                callbackFunc: SETUP_DI_BUILD_DRIVER_DRIVER_TYPE,
+                callbackFunc: ?GameInputDeviceCallback,
                 callbackToken: ?*u64,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
@@ -1830,14 +1830,14 @@ pub const IGameInput = extern struct {
                 self: *const IGameInput,
                 device: ?*IGameInputDevice,
                 context: ?*anyopaque,
-                callbackFunc: DIINSTALLDEVICE_FLAGS,
+                callbackFunc: ?GameInputGuideButtonCallback,
                 callbackToken: ?*u64,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             else => *const fn(
                 self: *const IGameInput,
                 device: ?*IGameInputDevice,
                 context: ?*anyopaque,
-                callbackFunc: DIINSTALLDEVICE_FLAGS,
+                callbackFunc: ?GameInputGuideButtonCallback,
                 callbackToken: ?*u64,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
@@ -1846,14 +1846,14 @@ pub const IGameInput = extern struct {
                 self: *const IGameInput,
                 device: ?*IGameInputDevice,
                 context: ?*anyopaque,
-                callbackFunc: DIINSTALLDRIVER_FLAGS,
+                callbackFunc: ?GameInputKeyboardLayoutCallback,
                 callbackToken: ?*u64,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             else => *const fn(
                 self: *const IGameInput,
                 device: ?*IGameInputDevice,
                 context: ?*anyopaque,
-                callbackFunc: DIINSTALLDRIVER_FLAGS,
+                callbackFunc: ?GameInputKeyboardLayoutCallback,
                 callbackToken: ?*u64,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
@@ -2000,19 +2000,19 @@ pub const IGameInput = extern struct {
             return @as(*const IGameInput.VTable, @ptrCast(self.vtable)).GetTemporalReading(@as(*const IGameInput, @ptrCast(self)), timestamp, device, reading);
         }
         // NOTE: method is namespaced with interface name to avoid conflicts for now
-        pub fn IGameInput_RegisterReadingCallback(self: *const T, device: ?*IGameInputDevice, inputKind: GameInputKind, analogThreshold: f32, context: ?*anyopaque, callbackFunc: OEM_SOURCE_MEDIA_TYPE, callbackToken: ?*u64) callconv(.Inline) HRESULT {
+        pub fn IGameInput_RegisterReadingCallback(self: *const T, device: ?*IGameInputDevice, inputKind: GameInputKind, analogThreshold: f32, context: ?*anyopaque, callbackFunc: ?GameInputReadingCallback, callbackToken: ?*u64) callconv(.Inline) HRESULT {
             return @as(*const IGameInput.VTable, @ptrCast(self.vtable)).RegisterReadingCallback(@as(*const IGameInput, @ptrCast(self)), device, inputKind, analogThreshold, context, callbackFunc, callbackToken);
         }
         // NOTE: method is namespaced with interface name to avoid conflicts for now
-        pub fn IGameInput_RegisterDeviceCallback(self: *const T, device: ?*IGameInputDevice, inputKind: GameInputKind, statusFilter: GameInputDeviceStatus, enumerationKind: GameInputEnumerationKind, context: ?*anyopaque, callbackFunc: SETUP_DI_BUILD_DRIVER_DRIVER_TYPE, callbackToken: ?*u64) callconv(.Inline) HRESULT {
+        pub fn IGameInput_RegisterDeviceCallback(self: *const T, device: ?*IGameInputDevice, inputKind: GameInputKind, statusFilter: GameInputDeviceStatus, enumerationKind: GameInputEnumerationKind, context: ?*anyopaque, callbackFunc: ?GameInputDeviceCallback, callbackToken: ?*u64) callconv(.Inline) HRESULT {
             return @as(*const IGameInput.VTable, @ptrCast(self.vtable)).RegisterDeviceCallback(@as(*const IGameInput, @ptrCast(self)), device, inputKind, statusFilter, enumerationKind, context, callbackFunc, callbackToken);
         }
         // NOTE: method is namespaced with interface name to avoid conflicts for now
-        pub fn IGameInput_RegisterGuideButtonCallback(self: *const T, device: ?*IGameInputDevice, context: ?*anyopaque, callbackFunc: DIINSTALLDEVICE_FLAGS, callbackToken: ?*u64) callconv(.Inline) HRESULT {
+        pub fn IGameInput_RegisterGuideButtonCallback(self: *const T, device: ?*IGameInputDevice, context: ?*anyopaque, callbackFunc: ?GameInputGuideButtonCallback, callbackToken: ?*u64) callconv(.Inline) HRESULT {
             return @as(*const IGameInput.VTable, @ptrCast(self.vtable)).RegisterGuideButtonCallback(@as(*const IGameInput, @ptrCast(self)), device, context, callbackFunc, callbackToken);
         }
         // NOTE: method is namespaced with interface name to avoid conflicts for now
-        pub fn IGameInput_RegisterKeyboardLayoutCallback(self: *const T, device: ?*IGameInputDevice, context: ?*anyopaque, callbackFunc: DIINSTALLDRIVER_FLAGS, callbackToken: ?*u64) callconv(.Inline) HRESULT {
+        pub fn IGameInput_RegisterKeyboardLayoutCallback(self: *const T, device: ?*IGameInputDevice, context: ?*anyopaque, callbackFunc: ?GameInputKeyboardLayoutCallback, callbackToken: ?*u64) callconv(.Inline) HRESULT {
             return @as(*const IGameInput.VTable, @ptrCast(self.vtable)).RegisterKeyboardLayoutCallback(@as(*const IGameInput, @ptrCast(self)), device, context, callbackFunc, callbackToken);
         }
         // NOTE: method is namespaced with interface name to avoid conflicts for now
@@ -2182,22 +2182,22 @@ pub const IGameInputReading = extern struct {
             .stage1 => fn(
                 self: *const IGameInputReading,
                 stateArrayCount: u32,
-                stateArray: [*]DIUNINSTALLDRIVER_FLAGS,
+                stateArray: [*]GameInputKeyState,
             ) callconv(@import("std").os.windows.WINAPI) u32,
             else => *const fn(
                 self: *const IGameInputReading,
                 stateArrayCount: u32,
-                stateArray: [*]DIUNINSTALLDRIVER_FLAGS,
+                stateArray: [*]GameInputKeyState,
             ) callconv(@import("std").os.windows.WINAPI) u32,
         },
         GetMouseState: switch (@import("builtin").zig_backend) {
             .stage1 => fn(
                 self: *const IGameInputReading,
-                state: ?*DIROLLBACKDRIVER_FLAGS,
+                state: ?*GameInputMouseState,
             ) callconv(@import("std").os.windows.WINAPI) bool,
             else => *const fn(
                 self: *const IGameInputReading,
-                state: ?*DIROLLBACKDRIVER_FLAGS,
+                state: ?*GameInputMouseState,
             ) callconv(@import("std").os.windows.WINAPI) bool,
         },
         GetTouchCount: switch (@import("builtin").zig_backend) {
@@ -2212,72 +2212,72 @@ pub const IGameInputReading = extern struct {
             .stage1 => fn(
                 self: *const IGameInputReading,
                 stateArrayCount: u32,
-                stateArray: [*]UPDATEDRIVERFORPLUGANDPLAYDEVICES_FLAGS,
+                stateArray: [*]GameInputTouchState,
             ) callconv(@import("std").os.windows.WINAPI) u32,
             else => *const fn(
                 self: *const IGameInputReading,
                 stateArrayCount: u32,
-                stateArray: [*]UPDATEDRIVERFORPLUGANDPLAYDEVICES_FLAGS,
+                stateArray: [*]GameInputTouchState,
             ) callconv(@import("std").os.windows.WINAPI) u32,
         },
         GetMotionState: switch (@import("builtin").zig_backend) {
             .stage1 => fn(
                 self: *const IGameInputReading,
-                state: ?*CM_RESTYPE,
+                state: ?*GameInputMotionState,
             ) callconv(@import("std").os.windows.WINAPI) bool,
             else => *const fn(
                 self: *const IGameInputReading,
-                state: ?*CM_RESTYPE,
+                state: ?*GameInputMotionState,
             ) callconv(@import("std").os.windows.WINAPI) bool,
         },
         GetArcadeStickState: switch (@import("builtin").zig_backend) {
             .stage1 => fn(
                 self: *const IGameInputReading,
-                state: ?*CM_GET_DEVICE_INTERFACE_LIST_FLAGS,
+                state: ?*GameInputArcadeStickState,
             ) callconv(@import("std").os.windows.WINAPI) bool,
             else => *const fn(
                 self: *const IGameInputReading,
-                state: ?*CM_GET_DEVICE_INTERFACE_LIST_FLAGS,
+                state: ?*GameInputArcadeStickState,
             ) callconv(@import("std").os.windows.WINAPI) bool,
         },
         GetFlightStickState: switch (@import("builtin").zig_backend) {
             .stage1 => fn(
                 self: *const IGameInputReading,
-                state: ?*CM_LOCATE_DEVNODE_FLAGS,
+                state: ?*GameInputFlightStickState,
             ) callconv(@import("std").os.windows.WINAPI) bool,
             else => *const fn(
                 self: *const IGameInputReading,
-                state: ?*CM_LOCATE_DEVNODE_FLAGS,
+                state: ?*GameInputFlightStickState,
             ) callconv(@import("std").os.windows.WINAPI) bool,
         },
         GetGamepadState: switch (@import("builtin").zig_backend) {
             .stage1 => fn(
                 self: *const IGameInputReading,
-                state: ?*CM_REENUMERATE_FLAGS,
+                state: ?*GameInputGamepadState,
             ) callconv(@import("std").os.windows.WINAPI) bool,
             else => *const fn(
                 self: *const IGameInputReading,
-                state: ?*CM_REENUMERATE_FLAGS,
+                state: ?*GameInputGamepadState,
             ) callconv(@import("std").os.windows.WINAPI) bool,
         },
         GetRacingWheelState: switch (@import("builtin").zig_backend) {
             .stage1 => fn(
                 self: *const IGameInputReading,
-                state: ?*CM_ENUMERATE_FLAGS,
+                state: ?*GameInputRacingWheelState,
             ) callconv(@import("std").os.windows.WINAPI) bool,
             else => *const fn(
                 self: *const IGameInputReading,
-                state: ?*CM_ENUMERATE_FLAGS,
+                state: ?*GameInputRacingWheelState,
             ) callconv(@import("std").os.windows.WINAPI) bool,
         },
         GetUiNavigationState: switch (@import("builtin").zig_backend) {
             .stage1 => fn(
                 self: *const IGameInputReading,
-                state: ?*INF_STYLE,
+                state: ?*GameInputUiNavigationState,
             ) callconv(@import("std").os.windows.WINAPI) bool,
             else => *const fn(
                 self: *const IGameInputReading,
-                state: ?*INF_STYLE,
+                state: ?*GameInputUiNavigationState,
             ) callconv(@import("std").os.windows.WINAPI) bool,
         },
     };
@@ -2333,11 +2333,11 @@ pub const IGameInputReading = extern struct {
             return @as(*const IGameInputReading.VTable, @ptrCast(self.vtable)).GetKeyCount(@as(*const IGameInputReading, @ptrCast(self)));
         }
         // NOTE: method is namespaced with interface name to avoid conflicts for now
-        pub fn IGameInputReading_GetKeyState(self: *const T, stateArrayCount: u32, stateArray: [*]DIUNINSTALLDRIVER_FLAGS) callconv(.Inline) u32 {
+        pub fn IGameInputReading_GetKeyState(self: *const T, stateArrayCount: u32, stateArray: [*]GameInputKeyState) callconv(.Inline) u32 {
             return @as(*const IGameInputReading.VTable, @ptrCast(self.vtable)).GetKeyState(@as(*const IGameInputReading, @ptrCast(self)), stateArrayCount, stateArray);
         }
         // NOTE: method is namespaced with interface name to avoid conflicts for now
-        pub fn IGameInputReading_GetMouseState(self: *const T, state: ?*DIROLLBACKDRIVER_FLAGS) callconv(.Inline) bool {
+        pub fn IGameInputReading_GetMouseState(self: *const T, state: ?*GameInputMouseState) callconv(.Inline) bool {
             return @as(*const IGameInputReading.VTable, @ptrCast(self.vtable)).GetMouseState(@as(*const IGameInputReading, @ptrCast(self)), state);
         }
         // NOTE: method is namespaced with interface name to avoid conflicts for now
@@ -2345,31 +2345,31 @@ pub const IGameInputReading = extern struct {
             return @as(*const IGameInputReading.VTable, @ptrCast(self.vtable)).GetTouchCount(@as(*const IGameInputReading, @ptrCast(self)));
         }
         // NOTE: method is namespaced with interface name to avoid conflicts for now
-        pub fn IGameInputReading_GetTouchState(self: *const T, stateArrayCount: u32, stateArray: [*]UPDATEDRIVERFORPLUGANDPLAYDEVICES_FLAGS) callconv(.Inline) u32 {
+        pub fn IGameInputReading_GetTouchState(self: *const T, stateArrayCount: u32, stateArray: [*]GameInputTouchState) callconv(.Inline) u32 {
             return @as(*const IGameInputReading.VTable, @ptrCast(self.vtable)).GetTouchState(@as(*const IGameInputReading, @ptrCast(self)), stateArrayCount, stateArray);
         }
         // NOTE: method is namespaced with interface name to avoid conflicts for now
-        pub fn IGameInputReading_GetMotionState(self: *const T, state: ?*CM_RESTYPE) callconv(.Inline) bool {
+        pub fn IGameInputReading_GetMotionState(self: *const T, state: ?*GameInputMotionState) callconv(.Inline) bool {
             return @as(*const IGameInputReading.VTable, @ptrCast(self.vtable)).GetMotionState(@as(*const IGameInputReading, @ptrCast(self)), state);
         }
         // NOTE: method is namespaced with interface name to avoid conflicts for now
-        pub fn IGameInputReading_GetArcadeStickState(self: *const T, state: ?*CM_GET_DEVICE_INTERFACE_LIST_FLAGS) callconv(.Inline) bool {
+        pub fn IGameInputReading_GetArcadeStickState(self: *const T, state: ?*GameInputArcadeStickState) callconv(.Inline) bool {
             return @as(*const IGameInputReading.VTable, @ptrCast(self.vtable)).GetArcadeStickState(@as(*const IGameInputReading, @ptrCast(self)), state);
         }
         // NOTE: method is namespaced with interface name to avoid conflicts for now
-        pub fn IGameInputReading_GetFlightStickState(self: *const T, state: ?*CM_LOCATE_DEVNODE_FLAGS) callconv(.Inline) bool {
+        pub fn IGameInputReading_GetFlightStickState(self: *const T, state: ?*GameInputFlightStickState) callconv(.Inline) bool {
             return @as(*const IGameInputReading.VTable, @ptrCast(self.vtable)).GetFlightStickState(@as(*const IGameInputReading, @ptrCast(self)), state);
         }
         // NOTE: method is namespaced with interface name to avoid conflicts for now
-        pub fn IGameInputReading_GetGamepadState(self: *const T, state: ?*CM_REENUMERATE_FLAGS) callconv(.Inline) bool {
+        pub fn IGameInputReading_GetGamepadState(self: *const T, state: ?*GameInputGamepadState) callconv(.Inline) bool {
             return @as(*const IGameInputReading.VTable, @ptrCast(self.vtable)).GetGamepadState(@as(*const IGameInputReading, @ptrCast(self)), state);
         }
         // NOTE: method is namespaced with interface name to avoid conflicts for now
-        pub fn IGameInputReading_GetRacingWheelState(self: *const T, state: ?*CM_ENUMERATE_FLAGS) callconv(.Inline) bool {
+        pub fn IGameInputReading_GetRacingWheelState(self: *const T, state: ?*GameInputRacingWheelState) callconv(.Inline) bool {
             return @as(*const IGameInputReading.VTable, @ptrCast(self.vtable)).GetRacingWheelState(@as(*const IGameInputReading, @ptrCast(self)), state);
         }
         // NOTE: method is namespaced with interface name to avoid conflicts for now
-        pub fn IGameInputReading_GetUiNavigationState(self: *const T, state: ?*INF_STYLE) callconv(.Inline) bool {
+        pub fn IGameInputReading_GetUiNavigationState(self: *const T, state: ?*GameInputUiNavigationState) callconv(.Inline) bool {
             return @as(*const IGameInputReading.VTable, @ptrCast(self.vtable)).GetUiNavigationState(@as(*const IGameInputReading, @ptrCast(self)), state);
         }
     };}
@@ -2400,11 +2400,11 @@ pub const IGameInputDevice = extern struct {
         GetBatteryState: switch (@import("builtin").zig_backend) {
             .stage1 => fn(
                 self: *const IGameInputDevice,
-                state: ?*SETUPSCANFILEQUEUE_FLAGS,
+                state: ?*GameInputBatteryState,
             ) callconv(@import("std").os.windows.WINAPI) void,
             else => *const fn(
                 self: *const IGameInputDevice,
-                state: ?*SETUPSCANFILEQUEUE_FLAGS,
+                state: ?*GameInputBatteryState,
             ) callconv(@import("std").os.windows.WINAPI) void,
         },
         CreateForceFeedbackEffect: switch (@import("builtin").zig_backend) {
@@ -2447,22 +2447,22 @@ pub const IGameInputDevice = extern struct {
             .stage1 => fn(
                 self: *const IGameInputDevice,
                 motorIndex: u32,
-                params: ?*const FILE_FLAGS_AND_ATTRIBUTES,
+                params: ?*const GameInputHapticFeedbackParams,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             else => *const fn(
                 self: *const IGameInputDevice,
                 motorIndex: u32,
-                params: ?*const FILE_FLAGS_AND_ATTRIBUTES,
+                params: ?*const GameInputHapticFeedbackParams,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         SetRumbleState: switch (@import("builtin").zig_backend) {
             .stage1 => fn(
                 self: *const IGameInputDevice,
-                params: ?*const FILE_ACCESS_RIGHTS,
+                params: ?*const GameInputRumbleParams,
             ) callconv(@import("std").os.windows.WINAPI) void,
             else => *const fn(
                 self: *const IGameInputDevice,
-                params: ?*const FILE_ACCESS_RIGHTS,
+                params: ?*const GameInputRumbleParams,
             ) callconv(@import("std").os.windows.WINAPI) void,
         },
         SetInputSynchronizationState: switch (@import("builtin").zig_backend) {
@@ -2604,7 +2604,7 @@ pub const IGameInputDevice = extern struct {
             return @as(*const IGameInputDevice.VTable, @ptrCast(self.vtable)).GetDeviceStatus(@as(*const IGameInputDevice, @ptrCast(self)));
         }
         // NOTE: method is namespaced with interface name to avoid conflicts for now
-        pub fn IGameInputDevice_GetBatteryState(self: *const T, state: ?*SETUPSCANFILEQUEUE_FLAGS) callconv(.Inline) void {
+        pub fn IGameInputDevice_GetBatteryState(self: *const T, state: ?*GameInputBatteryState) callconv(.Inline) void {
             return @as(*const IGameInputDevice.VTable, @ptrCast(self.vtable)).GetBatteryState(@as(*const IGameInputDevice, @ptrCast(self)), state);
         }
         // NOTE: method is namespaced with interface name to avoid conflicts for now
@@ -2620,11 +2620,11 @@ pub const IGameInputDevice = extern struct {
             return @as(*const IGameInputDevice.VTable, @ptrCast(self.vtable)).SetForceFeedbackMotorGain(@as(*const IGameInputDevice, @ptrCast(self)), motorIndex, masterGain);
         }
         // NOTE: method is namespaced with interface name to avoid conflicts for now
-        pub fn IGameInputDevice_SetHapticMotorState(self: *const T, motorIndex: u32, params: ?*const FILE_FLAGS_AND_ATTRIBUTES) callconv(.Inline) HRESULT {
+        pub fn IGameInputDevice_SetHapticMotorState(self: *const T, motorIndex: u32, params: ?*const GameInputHapticFeedbackParams) callconv(.Inline) HRESULT {
             return @as(*const IGameInputDevice.VTable, @ptrCast(self.vtable)).SetHapticMotorState(@as(*const IGameInputDevice, @ptrCast(self)), motorIndex, params);
         }
         // NOTE: method is namespaced with interface name to avoid conflicts for now
-        pub fn IGameInputDevice_SetRumbleState(self: *const T, params: ?*const FILE_ACCESS_RIGHTS) callconv(.Inline) void {
+        pub fn IGameInputDevice_SetRumbleState(self: *const T, params: ?*const GameInputRumbleParams) callconv(.Inline) void {
             return @as(*const IGameInputDevice.VTable, @ptrCast(self.vtable)).SetRumbleState(@as(*const IGameInputDevice, @ptrCast(self)), params);
         }
         // NOTE: method is namespaced with interface name to avoid conflicts for now
@@ -2853,10 +2853,10 @@ pub const IGameInputRawDeviceReport = extern struct {
         GetReportInfo: switch (@import("builtin").zig_backend) {
             .stage1 => fn(
                 self: *const IGameInputRawDeviceReport,
-            ) callconv(@import("std").os.windows.WINAPI) ?*CM_CDFLAGS,
+            ) callconv(@import("std").os.windows.WINAPI) ?*GameInputRawDeviceReportInfo,
             else => *const fn(
                 self: *const IGameInputRawDeviceReport,
-            ) callconv(@import("std").os.windows.WINAPI) ?*CM_CDFLAGS,
+            ) callconv(@import("std").os.windows.WINAPI) ?*GameInputRawDeviceReportInfo,
         },
         GetRawDataSize: switch (@import("builtin").zig_backend) {
             .stage1 => fn(
@@ -2941,7 +2941,7 @@ pub const IGameInputRawDeviceReport = extern struct {
             return @as(*const IGameInputRawDeviceReport.VTable, @ptrCast(self.vtable)).GetDevice(@as(*const IGameInputRawDeviceReport, @ptrCast(self)), device);
         }
         // NOTE: method is namespaced with interface name to avoid conflicts for now
-        pub fn IGameInputRawDeviceReport_GetReportInfo(self: *const T) callconv(.Inline) ?*CM_CDFLAGS {
+        pub fn IGameInputRawDeviceReport_GetReportInfo(self: *const T) callconv(.Inline) ?*GameInputRawDeviceReportInfo {
             return @as(*const IGameInputRawDeviceReport.VTable, @ptrCast(self.vtable)).GetReportInfo(@as(*const IGameInputRawDeviceReport, @ptrCast(self)));
         }
         // NOTE: method is namespaced with interface name to avoid conflicts for now
@@ -2999,50 +2999,15 @@ pub usingnamespace switch (@import("../zig.zig").unicode_mode) {
     },
 };
 //--------------------------------------------------------------------------------
-// Section: Imports (42)
+// Section: Imports (7)
 //--------------------------------------------------------------------------------
 const Guid = @import("../zig.zig").Guid;
 const APP_LOCAL_DEVICE_ID = @import("../windows/win32/foundation.zig").APP_LOCAL_DEVICE_ID;
-const CM_CDFLAGS = @import("../windows/win32/devices/device_and_driver_installation.zig").CM_CDFLAGS;
-const CM_CDMASK = @import("../windows/win32/devices/device_and_driver_installation.zig").CM_CDMASK;
-const CM_DEVCAP = @import("../windows/win32/devices/device_and_driver_installation.zig").CM_DEVCAP;
-const CM_DEVNODE_STATUS_FLAGS = @import("../windows/win32/devices/device_and_driver_installation.zig").CM_DEVNODE_STATUS_FLAGS;
-const CM_ENUMERATE_FLAGS = @import("../windows/win32/devices/device_and_driver_installation.zig").CM_ENUMERATE_FLAGS;
-const CM_GET_DEVICE_INTERFACE_LIST_FLAGS = @import("../windows/win32/devices/device_and_driver_installation.zig").CM_GET_DEVICE_INTERFACE_LIST_FLAGS;
-const CM_INSTALL_STATE = @import("../windows/win32/devices/device_and_driver_installation.zig").CM_INSTALL_STATE;
-const CM_LOCATE_DEVNODE_FLAGS = @import("../windows/win32/devices/device_and_driver_installation.zig").CM_LOCATE_DEVNODE_FLAGS;
-const CM_LOG_CONF = @import("../windows/win32/devices/device_and_driver_installation.zig").CM_LOG_CONF;
-const CM_PROB = @import("../windows/win32/devices/device_and_driver_installation.zig").CM_PROB;
-const CM_REENUMERATE_FLAGS = @import("../windows/win32/devices/device_and_driver_installation.zig").CM_REENUMERATE_FLAGS;
-const CM_REMOVAL_POLICY = @import("../windows/win32/devices/device_and_driver_installation.zig").CM_REMOVAL_POLICY;
-const CM_RESTYPE = @import("../windows/win32/devices/device_and_driver_installation.zig").CM_RESTYPE;
-const CONFIGRET = @import("../windows/win32/devices/device_and_driver_installation.zig").CONFIGRET;
-const D2D1_COLOR_F = @import("../windows/win32/graphics/direct2d/common.zig").D2D1_COLOR_F;
-const D2D_COLOR_F = @import("../windows/win32/graphics/direct2d/common.zig").D2D_COLOR_F;
-const DEVPROPTYPE = @import("../windows/win32/devices/properties.zig").DEVPROPTYPE;
-const DIINSTALLDEVICE_FLAGS = @import("../windows/win32/devices/device_and_driver_installation.zig").DIINSTALLDEVICE_FLAGS;
-const DIINSTALLDRIVER_FLAGS = @import("../windows/win32/devices/device_and_driver_installation.zig").DIINSTALLDRIVER_FLAGS;
-const DIROLLBACKDRIVER_FLAGS = @import("../windows/win32/devices/device_and_driver_installation.zig").DIROLLBACKDRIVER_FLAGS;
-const DIUNINSTALLDRIVER_FLAGS = @import("../windows/win32/devices/device_and_driver_installation.zig").DIUNINSTALLDRIVER_FLAGS;
-const DWRITE_COLOR_F = @import("../windows/win32/graphics/direct_write.zig").DWRITE_COLOR_F;
-const DWRITE_FONT_AXIS_TAG = @import("../windows/win32/graphics/direct_write.zig").DWRITE_FONT_AXIS_TAG;
-const DXGI_RGBA = @import("../windows/win32/graphics/dxgi.zig").DXGI_RGBA;
-const FILE_ACCESS_RIGHTS = @import("../windows/win32/storage/file_system.zig").FILE_ACCESS_RIGHTS;
-const FILE_FLAGS_AND_ATTRIBUTES = @import("../windows/win32/storage/file_system.zig").FILE_FLAGS_AND_ATTRIBUTES;
 const HANDLE = @import("../windows/win32/foundation.zig").HANDLE;
 const HRESULT = @import("../windows/win32/foundation.zig").HRESULT;
-const INF_STYLE = @import("../windows/win32/devices/device_and_driver_installation.zig").INF_STYLE;
 const IUnknown = @import("../windows/win32/system/com.zig").IUnknown;
-const OEM_SOURCE_MEDIA_TYPE = @import("../windows/win32/devices/device_and_driver_installation.zig").OEM_SOURCE_MEDIA_TYPE;
 const PSTR = @import("../windows/win32/foundation.zig").PSTR;
 const PWSTR = @import("../windows/win32/foundation.zig").PWSTR;
-const QUERY_DISPLAY_CONFIG_FLAGS = @import("../windows/win32/devices/display.zig").QUERY_DISPLAY_CONFIG_FLAGS;
-const SET_DISPLAY_CONFIG_FLAGS = @import("../windows/win32/devices/display.zig").SET_DISPLAY_CONFIG_FLAGS;
-const SETUP_DI_BUILD_DRIVER_DRIVER_TYPE = @import("../windows/win32/devices/device_and_driver_installation.zig").SETUP_DI_BUILD_DRIVER_DRIVER_TYPE;
-const SETUPSCANFILEQUEUE_FLAGS = @import("../windows/win32/devices/device_and_driver_installation.zig").SETUPSCANFILEQUEUE_FLAGS;
-const UPDATEDRIVERFORPLUGANDPLAYDEVICES_FLAGS = @import("../windows/win32/devices/device_and_driver_installation.zig").UPDATEDRIVERFORPLUGANDPLAYDEVICES_FLAGS;
-const WINUSB_PIPE_POLICY = @import("../windows/win32/devices/usb.zig").WINUSB_PIPE_POLICY;
-const WINUSB_POWER_POLICY = @import("../windows/win32/devices/usb.zig").WINUSB_POWER_POLICY;
 
 test {
     // The following '_ = <FuncPtrType>' lines are a workaround for https://github.com/ziglang/zig/issues/4476
