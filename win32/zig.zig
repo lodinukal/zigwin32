@@ -144,10 +144,6 @@ pub fn typedConst2(comptime ReturnType: type, comptime SwitchType: type, comptim
             .One, .Many, .C => {
                 switch (@typeInfo(@TypeOf(value))) {
                     .ComptimeInt, .Int => {
-                        // this is very hacky, but it works
-                        // comptime var intermediary_ptr = target_type_info;
-                        // comptime intermediary_ptr.alignment = 1;
-                        // const intermediary_type = @Type(std.builtin.Type{ .Pointer = intermediary_ptr });
                         const usize_value = if (value >= 0) value else @as(usize, @bitCast(@as(isize, value)));
                         return @alignCast(@as(?ReturnType, @ptrFromInt(usize_value)));
                     },
